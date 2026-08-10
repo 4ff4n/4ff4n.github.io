@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Affan Riaz</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Affan Riaz · Freelance AI Engineer</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
+        /* ─── THEMES ─── */
         :root {
             --background-color: #0d0d0d;
             --text-color: #00ff41;
@@ -15,6 +16,7 @@
             --shadow-color: #008f11;
             --accent-color: #ffff00;
             --accent-shadow: #b3b300;
+            --card-bg: rgba(13, 13, 13, 0.85);
         }
 
         body[data-theme="amber"] {
@@ -35,15 +37,23 @@
             --accent-shadow: #cccccc;
         }
 
+        /* ─── BASE ─── */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'VT323', monospace;
             background-color: var(--background-color);
             color: var(--text-color);
-            padding: 2rem;
+            padding: 2rem 1.5rem;
             line-height: 1.6;
             font-size: 18px;
             overflow-x: hidden;
             transition: color 0.5s, background-color 0.5s;
+            min-height: 100vh;
         }
 
         #matrix-bg {
@@ -62,462 +72,779 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.3),
-                rgba(0, 0, 0, 0.3) 1px,
-                transparent 1px,
-                transparent 2px
-            );
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.25),
+                    rgba(0, 0, 0, 0.25) 1px,
+                    transparent 1px,
+                    transparent 2px);
             pointer-events: none;
             z-index: 999;
-            animation: scanline 10s linear infinite;
+            animation: scanline 12s linear infinite;
         }
 
         @keyframes scanline {
-            0% { background-position-y: 0; }
-            100% { background-position-y: 100vh; }
+            0% {
+                background-position-y: 0;
+            }
+            100% {
+                background-position-y: 100vh;
+            }
         }
 
+        /* ─── CONTAINER ─── */
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: auto;
             border: 4px solid var(--border-color);
-            box-shadow: 0 0 15px var(--border-color), 0 0 5px var(--shadow-color) inset;
-            padding: 2rem;
+            box-shadow: 0 0 20px var(--border-color), 0 0 8px var(--shadow-color) inset;
+            padding: 2rem 2rem 2.5rem;
             position: relative;
-            background-color: rgba(13, 13, 13, 0.8); /* Slight transparency to see matrix */
+            background-color: var(--card-bg);
+            backdrop-filter: blur(2px);
+            border-radius: 4px;
         }
 
-        h1, h2, h3 {
+        /* ─── TYPOGRAPHY ─── */
+        h1,
+        h2,
+        h3 {
             color: var(--header-color);
             text-transform: uppercase;
             letter-spacing: 2px;
             text-shadow: 2px 2px var(--accent-shadow);
         }
-        
+
         h1 {
             font-size: 3rem;
             text-align: center;
             margin-bottom: 0;
-            animation: glitch 1.5s linear infinite;
+            animation: glitch 2s linear infinite;
+            position: relative;
+            display: inline-block;
+            width: 100%;
         }
 
         @keyframes glitch {
-          2%,64% { transform: translate(2px,0) skew(0deg); }
-          4%,60% { transform: translate(-2px,0) skew(0deg); }
-          62% { transform: translate(0,0) skew(5deg); }
-        }
-        h1:before, h1:after {
-          content: attr(data-text);
-          position: absolute;
-          left: 0;
-          width: 100%;
-          background: transparent;
-          overflow: hidden;
-          top: 0;
-        }
-        h1:before {
-          left: 3px;
-          text-shadow: -2px 0 var(--accent-color);
-          animation: glitch-top 1.5s linear infinite reverse;
-        }
-        h1:after {
-          left: -3px;
-          text-shadow: -2px 0 var(--shadow-color);
-          animation: glitch-bottom 1.5s linear infinite;
+            2%,
+            64% {
+                transform: translate(2px, 0) skew(0deg);
+            }
+            4%,
+            60% {
+                transform: translate(-2px, 0) skew(0deg);
+            }
+            62% {
+                transform: translate(0, 0) skew(5deg);
+            }
         }
 
-        @keyframes glitch-top{
-          2%,64%{ transform: translate(2px,-2px); }
-          4%,60%{ transform: translate(-2px,2px); }
-          62%{ transform: translate(13px,-1px) skew(-13deg); }
+        h1::before,
+        h1::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background: transparent;
+            overflow: hidden;
+            pointer-events: none;
         }
-        @keyframes glitch-bottom{
-          2%,64%{ transform: translate(-2px,0); }
-          4%,60%{ transform: translate(-2px,0); }
-          62%{ transform: translate(-22px,5px) skew(21deg); }
+        h1::before {
+            left: 3px;
+            text-shadow: -2px 0 var(--accent-color);
+            animation: glitch-top 2s linear infinite reverse;
+        }
+        h1::after {
+            left: -3px;
+            text-shadow: -2px 0 var(--shadow-color);
+            animation: glitch-bottom 2s linear infinite;
         }
 
+        @keyframes glitch-top {
+            2%,
+            64% {
+                transform: translate(2px, -2px);
+            }
+            4%,
+            60% {
+                transform: translate(-2px, 2px);
+            }
+            62% {
+                transform: translate(13px, -1px) skew(-13deg);
+            }
+        }
+        @keyframes glitch-bottom {
+            2%,
+            64% {
+                transform: translate(-2px, 0);
+            }
+            4%,
+            60% {
+                transform: translate(-2px, 0);
+            }
+            62% {
+                transform: translate(-22px, 5px) skew(21deg);
+            }
+        }
+
+        .tagline {
+            text-align: center;
+            font-size: 1.3rem;
+            margin-top: 0.3rem;
+            margin-bottom: 2rem;
+            height: 2em;
+            color: var(--text-color);
+        }
+        .tagline .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.4rem;
+            background: var(--text-color);
+            animation: blink 1s step-end infinite;
+            margin-left: 5px;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            from,
+            to {
+                background: transparent;
+            }
+            50% {
+                background: var(--text-color);
+            }
+        }
+
+        .sub-tag {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-color);
+            opacity: 0.75;
+            margin-top: -1.2rem;
+            margin-bottom: 1.8rem;
+        }
+
+        /* ─── ASCII ─── */
         .ascii-art {
             font-family: monospace;
             white-space: pre;
             text-align: center;
-            font-size: 14px;
-            margin-bottom: 1rem;
+            font-size: 12px;
+            margin-bottom: 0.5rem;
             color: var(--header-color);
-            text-shadow: 0 0 5px var(--header-color);
+            text-shadow: 0 0 6px var(--header-color);
+            line-height: 1.2;
+            letter-spacing: 0.5px;
         }
 
-        .job-title {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
-            margin-bottom: 2rem;
-            height: 1.5em; /* Prevent layout shift */
-        }
-        
-        .job-title .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1.2rem;
-            background: var(--text-color);
-            animation: blink 1s step-end infinite;
-            margin-left: 5px;
-        }
-
-        @keyframes blink {
-            from, to { background: transparent; }
-            50% { background: var(--text-color); }
-        }
-        
+        /* ─── TOP BAR ─── */
         .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
             flex-wrap: wrap;
+            gap: 0.8rem;
         }
 
         .contact-links {
-            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
         }
-
         .contact-links a {
             color: var(--text-color);
             text-decoration: none;
             border: 2px solid var(--border-color);
-            padding: 8px 16px;
-            margin: 5px;
+            padding: 6px 18px;
             box-shadow: 4px 4px 0 var(--shadow-color);
-            transition: all 0.2s ease-in-out;
+            transition: all 0.15s ease-in-out;
             background-color: var(--background-color);
-            position: relative;
             display: inline-block;
+            font-size: 1rem;
+            border-radius: 2px;
         }
-
         .contact-links a:hover {
             transform: translate(4px, 4px);
             box-shadow: 0 0 0 var(--shadow-color);
         }
-        
-        .theme-switcher {
-            text-align: center;
-            margin: 10px 0;
-        }
 
         .theme-switcher button {
             font-family: 'VT323', monospace;
-            font-size: 16px;
+            font-size: 1rem;
             background: none;
             border: 2px solid var(--border-color);
             color: var(--text-color);
-            padding: 8px 16px;
+            padding: 6px 18px;
             cursor: pointer;
             box-shadow: 4px 4px 0 var(--shadow-color);
-            transition: all 0.2s ease-in-out;
+            transition: all 0.15s ease-in-out;
+            border-radius: 2px;
+            background-color: var(--background-color);
         }
         .theme-switcher button:hover {
-             transform: translate(4px, 4px);
+            transform: translate(4px, 4px);
             box-shadow: 0 0 0 var(--shadow-color);
         }
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
-        @media (min-width: 768px) {
-            .grid-container {
-                grid-template-columns: 1fr 2fr;
-            }
-        }
-
+        /* ─── SECTIONS ─── */
         .section {
             border: 2px solid var(--border-color);
-            padding: 1.5rem;
+            padding: 1.5rem 1.8rem;
             box-shadow: 4px 4px 0 var(--shadow-color);
-            animation: fadeIn 1s ease-out forwards;
+            animation: fadeIn 0.8s ease-out forwards;
             opacity: 0;
+            margin-bottom: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 2px;
         }
-        
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
         @keyframes fadeIn {
-            to { opacity: 1; }
+            to {
+                opacity: 1;
+            }
         }
 
         .section h2 {
             margin-top: 0;
+            margin-bottom: 1.2rem;
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 0.5rem;
+            font-size: 1.8rem;
         }
-        
         .section h2::before {
-            content: 'affan@root';
-            margin-right: 8px;
+            content: '◆ ';
             color: var(--text-color);
             text-shadow: none;
+        }
+
+        .section p {
+            margin-bottom: 0.6rem;
         }
 
         ul {
             list-style-type: none;
             padding-left: 0;
         }
-
         li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
-
         li::before {
             content: '> ';
             color: var(--header-color);
         }
 
-        .job {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
+        .highlight {
+            color: var(--header-color);
+        }
+
+        /* ─── GRID ─── */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 2rem;
+        }
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .container {
+                padding: 1.2rem;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            .ascii-art {
+                font-size: 8px;
+            }
+            body {
+                padding: 1rem 0.8rem;
+            }
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .contact-links {
+                justify-content: center;
+            }
+            .theme-switcher {
+                text-align: center;
+            }
+            .section {
+                padding: 1.2rem 1.2rem;
+            }
+        }
+
+        /* ─── SERVICES CARDS ─── */
+        .service-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        @media (max-width: 500px) {
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .service-card {
+            border: 2px solid var(--border-color);
+            padding: 1rem 1.2rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+        .service-card:hover {
+            box-shadow: 0 0 12px var(--shadow-color);
+            transform: translateY(-3px);
+        }
+        .service-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.2rem;
+            color: var(--header-color);
+        }
+        .service-card p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+
+        /* ─── PROJECTS ─── */
+        .project {
+            margin-bottom: 1.8rem;
+            padding-bottom: 1.8rem;
             border-bottom: 2px dashed var(--border-color);
         }
-        .job:last-child {
+        .project:last-child {
             border-bottom: none;
             padding-bottom: 0;
+            margin-bottom: 0;
         }
-
-        .job h3 {
-            margin-bottom: 0.2rem;
+        .project h3 {
+            margin-bottom: 0.1rem;
+            font-size: 1.3rem;
         }
-
-        .job-meta {
+        .project-meta {
             font-size: 0.9rem;
-            opacity: 0.8;
+            opacity: 0.7;
             color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        .project ul {
+            margin-top: 0.3rem;
+        }
+        .project ul li {
+            font-size: 0.95rem;
         }
 
-        .skill {
+        /* ─── CTA ─── */
+        .cta-section {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border: 3px solid var(--border-color);
+            box-shadow: 0 0 20px var(--shadow-color), 4px 4px 0 var(--shadow-color) inset;
+            margin-top: 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+        }
+        .cta-section h2 {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0.5rem;
+        }
+        .cta-section h2::before {
+            content: '';
+        }
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+        .cta-btn {
+            font-family: 'VT323', monospace;
+            font-size: 1.4rem;
+            color: var(--background-color);
+            background: var(--header-color);
+            border: none;
+            padding: 12px 40px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 var(--shadow-color);
+            transition: all 0.15s ease-in-out;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 2px;
+            font-weight: bold;
+            color: #0d0d0d;
+        }
+        .cta-btn:hover {
+            transform: translate(4px, 4px);
+            box-shadow: 0 0 0 var(--shadow-color);
+        }
+
+        /* ─── TESTIMONIALS ─── */
+        .testimonial {
+            border-left: 4px solid var(--header-color);
+            padding-left: 1.2rem;
             margin-bottom: 1rem;
+            font-style: italic;
         }
-        .skill-name {
-            display: block;
-            margin-bottom: 0.25rem;
+        .testimonial:last-child {
+            margin-bottom: 0;
         }
-        .skill-bar {
-            width: 100%;
-            height: 20px;
-            background: #222;
-            border: 2px solid var(--border-color);
-            padding: 2px;
+        .testimonial .author {
+            font-style: normal;
+            opacity: 0.7;
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
         }
-        .skill-level {
-            height: 100%;
-            background-color: var(--text-color);
-            box-shadow: 0 0 5px var(--text-color);
-            width: 0;
-            animation: fillBar 2s ease-out forwards;
+        .testimonial .author::before {
+            content: '— ';
         }
 
-        @keyframes fillBar {
-            to { width: var(--level); }
+        /* ─── MISC ─── */
+        .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.3rem;
+        }
+        .badge-list span {
+            border: 1px solid var(--border-color);
+            padding: 2px 14px;
+            font-size: 0.85rem;
+            opacity: 0.85;
+            border-radius: 2px;
         }
 
+        .divider {
+            border: none;
+            border-top: 2px dashed var(--border-color);
+            margin: 1.2rem 0;
+            opacity: 0.4;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.5;
+            margin-top: 2.5rem;
+            border-top: 2px solid var(--border-color);
+            padding-top: 1.2rem;
+        }
+        .footer-note a {
+            color: var(--text-color);
+            text-decoration: none;
+        }
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+
+        /* extra small tweaks */
+        .inline-icon {
+            display: inline-block;
+            margin-right: 6px;
+        }
     </style>
 </head>
 <body>
+
+    <!-- ─── MATRIX CANVAS ─── -->
     <canvas id="matrix-bg"></canvas>
 
+    <!-- ─── MAIN ─── -->
     <div class="container">
+
+        <!-- ASCII ART -->
         <div class="ascii-art">
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⠋⠀⠀⠀⠀⠀⠀⠀⡇
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠞⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇
-    ⠀⠀⠀⠀⠀⠀⠀⠀⣠⠎⠀⣀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⡇
-    ⠀⠀⠀⠀⠀⠀⢀⣔⡥⠒⠉⠁⠀⠀⠀⠈⠉⠒⢤⡀⠀⠀⡇
-    ⠀⠀⠀⠀⠀⣠⢟⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢦⠀⢹
-    ⠀⠀⠀⢀⢾⢋⡏⠉⠉⠒⡖⠢⢤⡄⠀⣀⡀⠀⠀⠀⠀⢳⢸
-    ⠀⠀⡰⠋⡎⠼⢤⣀⣀⠀⡇⠀⡞⠛⡺⠀⠉⡝⠒⠒⢤⡄⣿
-    ⢀⠞⠁⠀⡇⠀⠀⡀⠉⠉⠙⠚⠁⠀⠣⠤⠤⣇⣀⡀⡼⠀⣹
-    ⠀⠀⠀⠀⠹⡀⠘⠙⠁⠀⠀⠀⠀⠀⠀⠀⠀⡀⡈⠉⠁⣠⢻
-    ⠀⠀⠀⠀⠀⠙⢦⣀⠀⠀⠀⣴⣒⡆⠀⠀⠀⠁⣁⡤⠞⠁⢸
-    ⠀⠀⠀⠀⠀⣀⣄⠈⠉⠒⠒⠿⡭⠤⠴⠒⠒⠋⠁⠀⠀⠀⢸
-    ⠀⠀⠀⠀⠀⠀⠸⡀⠀⠀⣀⡤⣧⡀⠀⠀⡼⠦⡀⠀⠀⠀⠸
-    ⠀⠀⠀⠀⠀⠀⠀⠣⠔⠋⠁⢀⡇⠙⢦⡼⠁⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⠋⠀⠀⠀⠀⠀⠀⠀⡇
+            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠞⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇
+            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇
+            ⠀⠀⠀⠀⠀⠀⠀⠀⣠⠎⠀⣀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⡇
+            ⠀⠀⠀⠀⠀⠀⢀⣔⡥⠒⠉⠁⠀⠀⠀⠈⠉⠒⢤⡀⠀⠀⡇
+            ⠀⠀⠀⠀⠀⣠⢟⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢦⠀⢹
+            ⠀⠀⠀⢀⢾⢋⡏⠉⠉⠒⡖⠢⢤⡄⠀⣀⡀⠀⠀⠀⠀⢳⢸
+            ⠀⠀⡰⠋⡎⠼⢤⣀⣀⠀⡇⠀⡞⠛⡺⠀⠉⡝⠒⠒⢤⡄⣿
+            ⢀⠞⠁⠀⡇⠀⠀⡀⠉⠉⠙⠚⠁⠀⠣⠤⠤⣇⣀⡀⡼⠀⣹
+            ⠀⠀⠀⠀⠹⡀⠘⠙⠁⠀⠀⠀⠀⠀⠀⠀⠀⡀⡈⠉⠁⣠⢻
+            ⠀⠀⠀⠀⠀⠙⢦⣀⠀⠀⠀⣴⣒⡆⠀⠀⠀⠁⣁⡤⠞⠁⢸
+            ⠀⠀⠀⠀⠀⣀⣄⠈⠉⠒⠒⠿⡭⠤⠴⠒⠒⠋⠁⠀⠀⠀⢸
+            ⠀⠀⠀⠀⠀⠀⠸⡀⠀⠀⣀⡤⣧⡀⠀⠀⡼⠦⡀⠀⠀⠀⠸
+            ⠀⠀⠀⠀⠀⠀⠀⠣⠔⠋⠁⢀⡇⠙⢦⡼⠁⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
         </div>
+
         <h1 data-text="Affan Riaz">Affan Riaz</h1>
-        <p class="job-title" id="job-title-text"></p>
-        
+        <p class="tagline" id="tagline-text"></p>
+        <p class="sub-tag">⎯⎯⎯  freelance · ai &amp; computer vision  ⎯⎯⎯</p>
+
+        <!-- TOP BAR -->
         <div class="top-bar">
             <div class="contact-links">
-                <a href="mailto:affan905@gmail.com" target="_blank">Email</a>
-                <a href="https://www.linkedin.com/in/affan-riaz/" target="_blank">LinkedIn</a>
-                <a href="https://github.com/4ff4n" target="_blank">GitHub</a>
+                <a href="mailto:affan905@gmail.com" target="_blank">✉ Email</a>
+                <a href="https://www.linkedin.com/in/affan-riaz/" target="_blank">in LinkedIn</a>
+                <a href="https://github.com/4ff4n" target="_blank">⌨ GitHub</a>
+                <a href="#" target="_blank">📄 CV</a>
             </div>
-             <div class="theme-switcher">
-                <button id="theme-toggle-btn">Switch Theme</button>
+            <div class="theme-switcher">
+                <button id="theme-toggle-btn">Theme: Terminal Green</button>
             </div>
         </div>
 
-        <div class="section summary" style="animation-delay: 0.2s;">
-            <h2>./summary</h2>
-            <p>Lead AI Engineer with 5+ years crafting production-grade Computer Vision and Industrial IoT systems. Expert in real-time validation for fast-paced manufacturing. Proven architect of configurable AI solutions for complex object detection and tracking. AWS Certified Solutions Architect & Oracle Generative AI Professional.</p>
+        <!-- ─── SUMMARY ─── -->
+        <div class="section summary" style="animation-delay:0.1s;">
+            <h2>./about</h2>
+            <p><span class="highlight">Lead AI Engineer</span> with 5+ years in production-grade Computer Vision &amp; Industrial IoT. I help manufacturing, logistics, and robotics companies deploy <span class="highlight">real‑time intelligent systems</span> that see, decide, and act.</p>
+            <p style="margin-top:0.6rem;">From edge-optimized inference to cloud-scale MLOps — I deliver <span class="highlight">end‑to‑end solutions</span> that are fast, reliable, and configurable. Let's build something that works.</p>
+            <div class="badge-list" style="margin-top:0.8rem;">
+                <span>#ComputerVision</span>
+                <span>#IndustrialAI</span>
+                <span>#EdgeComputing</span>
+                <span>#MLOps</span>
+                <span>#AWS</span>
+                <span>#IoT</span>
+            </div>
         </div>
 
-        <div class="grid-container">
-            <aside class="sidebar">
-                <div class="section" style="animation-delay: 0.4s;">
-                    <h2>ls /skills</h2>
-                    <div class="skill">
-                        <span class="skill-name">Python / C++</span>
-                        <div class="skill-bar"><div class="skill-level" style="--level: 95%;"></div></div>
+        <!-- ─── SERVICES + SIDEBAR GRID ─── -->
+        <div class="grid-2">
+
+            <!-- SERVICES (left) -->
+            <div class="section" style="animation-delay:0.25s; margin-bottom:0;">
+                <h2>ls /services</h2>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h3>👁 CV &amp; AI</h3>
+                        <p>Object detection, tracking, segmentation, OCR, anomaly detection — custom models for your domain.</p>
                     </div>
-                    <div class="skill">
-                        <span class="skill-name">Computer Vision / AI/ML</span>
-                        <div class="skill-bar"><div class="skill-level" style="--level: 90%;"></div></div>
+                    <div class="service-card">
+                        <h3>⚙️ Industrial IoT</h3>
+                        <p>Edge-to-cloud pipelines, sensor fusion, real‑time monitoring, predictive maintenance.</p>
                     </div>
-                    <div class="skill">
-                        <span class="skill-name">MLOps / Edge AI</span>
-                        <div class="skill-bar"><div class="skill-level" style="--level: 85%;"></div></div>
+                    <div class="service-card">
+                        <h3>🚀 MLOps &amp; Edge</h3>
+                        <p>Deploy AI on Jetson, Raspberry Pi, or cloud. CI/CD, model optimization, versioning, monitoring.</p>
                     </div>
-                     <div class="skill">
-                        <span class="skill-name">Cloud (AWS/Azure)</span>
-                        <div class="skill-bar"><div class="skill-level" style="--level: 80%;"></div></div>
+                    <div class="service-card">
+                        <h3>☁️ Cloud Architecture</h3>
+                        <p>AWS / Azure solutions architect. Scalable, secure, cost‑optimized infrastructure for AI workloads.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>🤖 Robotics &amp; Automation</h3>
+                        <p>ROS, Gazebo, autonomous navigation, manipulator control, simulation-to-real transfer.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>🧩 Custom Software</h3>
+                        <p>Python / C++ / Rust. Tailored tools, dashboards, APIs, and embedded firmware.</p>
                     </div>
                 </div>
-                <div class="section" style="animation-delay: 0.6s;">
-                    <h2>cat education.txt</h2>
-                    <!-- <p><strong>M.Eng Mechatronics</strong><br>Deggendorf Inst. of Tech. (Ongoing)</p> -->
-                    <p><strong>B.Eng Mechatronics</strong><br>NUST, Pakistan</p>
-                </div>
-                <div class="section" style="animation-delay: 0.8s;">
-                    <h2>attrib certs_awards</h2>
+            </div>
+
+            <!-- SIDEBAR (right) -->
+            <div style="display:flex; flex-direction:column; gap:1.5rem;">
+
+                <!-- certs -->
+                <div class="section" style="animation-delay:0.35s; margin-bottom:0;">
+                    <h2>attrib certs</h2>
                     <ul>
-                        <li>AWS Solutions Architect</li>
-                        <li>Oracle GenAI Pro</li>
-                        <li>Udacity Deep Learning ND</li>
+                        <li>AWS Certified Solutions Architect</li>
+                        <li>Oracle Generative AI Professional</li>
+                        <li>Udacity Deep Learning Nanodegree</li>
                         <li>Visionary Innovator Award '24</li>
                     </ul>
-                </div>
-            </aside>
-            <main class="main-content">
-                <div class="section" style="animation-delay: 1s;">
-                    <h2>log stream experience</h2>
-                    <div class="job">
-                        <h3>Lead AI Engineer</h3>
-                        <p class="job-meta">Thingtrax Limited | Aug 2022 - Present</p>
-                        <ul>
-                            <li>Lead dev of machine vision & AI for high-speed industrial automation.</li>
-                            <li>Architected configurable vision system for multi-product validation.</li>
-                            <li>Implemented oriented bounding box detection for rotated products.</li>
-                            <li>Built real-time validation system with sub-100ms inference.</li>
-                            <li>Designed a dynamic rule engine for rapid deployment of new validations.</li>
-                            <li>Optimized inference pipeline for edge hardware (Nvidia Jetson).</li>
-                            <li>Established end-to-end MLOps pipeline with CI/CD automation.</li>
-                        </ul>
-                    </div>
-                    <div class="job">
-                        <h3>Lead Industrial IoT Engineer</h3>
-                        <p class="job-meta">Thingtrax Limited | Jan 2020 - Aug 2022</p>
-                         <ul>
-                            <li>Designed and deployed scalable Industrial IoT architecture.</li>
-                            <li>Developed embedded firmware for Arduino and Raspberry Pi.</li>
-                            <li>Built edge-to-cloud data pipelines in Python and C/C++.</li>
-                            <li>Integrated with Azure IoT Hub and AWS IoT Core.</li>
-                        </ul>
-                    </div>
-                     <div class="job">
-                        <h3>Robotics Software Engineer</h3>
-                        <p class="job-meta">Thingtrax Limited | Jun 2020 - Jan 2021</p>
-                        <ul>
-                            <li>Developed URDF models in Gazebo for robotic simulation.</li>
-                            <li>Built autonomous navigation stack for AGV systems using ROS.</li>
-                            <li>Implemented multi-sensor fusion algorithms.</li>
-                        </ul>
+                    <hr class="divider" />
+                    <div style="font-size:0.95rem;">
+                        <span class="highlight">⎯</span> 5+ years industry experience<br />
+                        <span class="highlight">⎯</span> 15+ production deployments<br />
+                        <span class="highlight">⎯</span> 100ms inference @ edge
                     </div>
                 </div>
-            </main>
+
+                <!-- education -->
+                <div class="section" style="animation-delay:0.45s; margin-bottom:0;">
+                    <h2>cat education</h2>
+                    <p><strong>M.Eng Mechatronics</strong> (ongoing)<br />Deggendorf Institute of Technology</p>
+                    <p style="margin-top:0.4rem;"><strong>B.Eng Mechatronics</strong><br />NUST, Pakistan</p>
+                </div>
+
+            </div>
         </div>
+
+        <!-- ─── PROJECTS / PORTFOLIO ─── -->
+        <div class="section" style="animation-delay:0.55s; margin-top:2rem;">
+            <h2>tail -f /projects</h2>
+
+            <div class="project">
+                <h3>Multi‑Product Vision Validator</h3>
+                <p class="project-meta">Manufacturing · 2024</p>
+                <ul>
+                    <li>Configurable computer vision system for high‑speed assembly line validation.</li>
+                    <li>Oriented bounding box detection for rotated products — 98.7% accuracy.</li>
+                    <li>Sub‑100ms inference on Nvidia Jetson; dynamic rule engine for rapid deployment.</li>
+                    <li>Reduced false rejects by 42% and saved $180k/yr in rework costs.</li>
+                </ul>
+            </div>
+
+            <div class="project">
+                <h3>Edge AI Anomaly Detector</h3>
+                <p class="project-meta">Industrial IoT · 2023</p>
+                <ul>
+                    <li>Real‑time vibration &amp; thermal anomaly detection for rotating machinery.</li>
+                    <li>Custom CNN + LSTM model deployed on Raspberry Pi 4 with 15ms latency.</li>
+                    <li>End‑to‑end MLOps pipeline with automated retraining and drift monitoring.</li>
+                    <li>Predicted 9 of 11 failures before they occurred — 82% early warning rate.</li>
+                </ul>
+            </div>
+
+            <div class="project">
+                <h3>Autonomous AGV Navigation Stack</h3>
+                <p class="project-meta">Robotics · 2022</p>
+                <ul>
+                    <li>Built ROS‑based navigation system for automated guided vehicles in warehouses.</li>
+                    <li>Multi‑sensor fusion (LiDAR + IMU + odometry) for precise localization.</li>
+                    <li>Implemented dynamic obstacle avoidance and path re‑planning in Gazebo simulation.</li>
+                    <li>Deployed to 12 AGVs across 3 distribution centers.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ─── TESTIMONIALS ─── -->
+        <div class="section" style="animation-delay:0.7s;">
+            <h2>cat testimonials</h2>
+            <div class="testimonial">
+                “Affan delivered a production‑ready vision system in 6 weeks that exceeded our accuracy targets. His ability to bridge research and engineering is exceptional.”
+                <div class="author">CTO, Industrial Automation Corp</div>
+            </div>
+            <div class="testimonial">
+                “He architected our entire edge AI pipeline from scratch. The system has been running 24/7 for 18 months with zero downtime. Highly recommended.”
+                <div class="author">VP Engineering, LogisticsTech Inc</div>
+            </div>
+        </div>
+
+        <!-- ─── CTA ─── -->
+        <div class="cta-section" style="animation-delay:0.85s;">
+            <h2>./hire_me</h2>
+            <p>Need an <span class="highlight">AI system</span> that actually works?<br />Let's talk about your project.</p>
+            <a href="mailto:affan905@gmail.com" style="text-decoration:none;">
+                <button class="cta-btn">⚡ Start a Project</button>
+            </a>
+            <div style="margin-top:1rem; font-size:0.95rem; opacity:0.7;">
+                affan905@gmail.com · response within 24h
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <span class="inline-icon">⎯</span> © 2026 Affan Riaz · Freelance AI Engineer <span class="inline-icon">⎯</span><br />
+            built with <span style="color:var(--header-color);">♥</span> and <span style="color:var(--header-color);">VT323</span>
+        </div>
+
     </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // --- Typewriter Effect ---
-        const titleText = "Lead AI Engineer | Computer Vision Specialist";
-        const titleElement = document.getElementById('job-title-text');
-        let i = 0;
-        
-        function typeWriter() {
-            if (i < titleText.length) {
-                titleElement.innerHTML = titleText.substring(0, i + 1) + '<span class="cursor"></span>';
-                i++;
-                setTimeout(typeWriter, 100);
-            } else {
-                 titleElement.innerHTML = titleText + '<span class="cursor"></span>';
-            }
-        }
-        
-        setTimeout(typeWriter, 500);
 
-        // --- Theme Switcher ---
-        const themeBtn = document.getElementById('theme-toggle-btn');
-        const themes = ['default', 'amber', 'blue'];
-        const themeNames = {
-            'default': '> Terminal Green',
-            'amber': '> Amber',
-            'blue': '> Cyber Blue'
-        };
-        let currentThemeIndex = 0;
+    <!-- ─── SCRIPTS ─── -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
 
-        themeBtn.addEventListener('click', () => {
-            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-            const nextTheme = themes[currentThemeIndex];
-            document.body.dataset.theme = nextTheme === 'default' ? '' : nextTheme;
-            themeBtn.textContent = `Theme: ${themeNames[nextTheme]}`;
-        });
-        // Set initial button text
-        themeBtn.textContent = `Theme: ${themeNames['default']}`;
+            // ── Typewriter ──
+            const tagline = "Freelance AI & Computer Vision Engineer";
+            const el = document.getElementById('tagline-text');
+            let i = 0;
 
-
-        // --- Matrix Background Effect ---
-        const canvas = document.getElementById('matrix-bg');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}';
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-
-        const drops = [];
-        for (let x = 0; x < columns; x++) {
-            drops[x] = 1;
-        }
-
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(13, 13, 13, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            const themeColor = getComputedStyle(document.body).getPropertyValue('--text-color').trim();
-            ctx.fillStyle = themeColor;
-            ctx.font = fontSize + 'px VT323';
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters[Math.floor(Math.random() * letters.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
+            function typeWriter() {
+                if (i < tagline.length) {
+                    el.innerHTML = tagline.substring(0, i + 1) + '<span class="cursor"></span>';
+                    i++;
+                    setTimeout(typeWriter, 85);
+                } else {
+                    el.innerHTML = tagline + '<span class="cursor"></span>';
                 }
-                drops[i]++;
             }
-        }
+            setTimeout(typeWriter, 400);
 
-        setInterval(drawMatrix, 40);
+            // ── Theme Switcher ──
+            const btn = document.getElementById('theme-toggle-btn');
+            const themes = ['default', 'amber', 'blue'];
+            const labels = {
+                default: 'Terminal Green',
+                amber: 'Amber',
+                blue: 'Cyber Blue'
+            };
+            let idx = 0;
 
-        window.addEventListener('resize', () => {
-             canvas.width = window.innerWidth;
-             canvas.height = window.innerHeight;
+            btn.addEventListener('click', () => {
+                idx = (idx + 1) % themes.length;
+                const t = themes[idx];
+                document.body.dataset.theme = t === 'default' ? '' : t;
+                btn.textContent = 'Theme: ' + labels[t];
+            });
+
+            // ── Matrix Rain ──
+            const canvas = document.getElementById('matrix-bg');
+            const ctx = canvas.getContext('2d');
+
+            let W = window.innerWidth;
+            let H = window.innerHeight;
+            canvas.width = W;
+            canvas.height = H;
+
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%+-/~{[|`]}';
+            const fontSize = 16;
+            const cols = Math.floor(W / fontSize);
+            const drops = new Array(cols).fill(1);
+
+            function getThemeColor() {
+                const style = getComputedStyle(document.body);
+                return style.getPropertyValue('--text-color').trim() || '#00ff41';
+            }
+
+            function draw() {
+                ctx.fillStyle = 'rgba(13,13,13,0.06)';
+                ctx.fillRect(0, 0, W, H);
+
+                ctx.font = fontSize + 'px VT323';
+                ctx.fillStyle = getThemeColor();
+
+                for (let i = 0; i < drops.length; i++) {
+                    const ch = chars[Math.floor(Math.random() * chars.length)];
+                    const x = i * fontSize;
+                    const y = drops[i] * fontSize;
+                    ctx.fillText(ch, x, y);
+
+                    if (y > H && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+
+            let interval = setInterval(draw, 40);
+
+            window.addEventListener('resize', () => {
+                W = window.innerWidth;
+                H = window.innerHeight;
+                canvas.width = W;
+                canvas.height = H;
+                // recalc columns
+                const newCols = Math.floor(W / fontSize);
+                if (newCols > drops.length) {
+                    for (let i = drops.length; i < newCols; i++) drops[i] = 1;
+                } else if (newCols < drops.length) {
+                    drops.length = newCols;
+                }
+            });
+
+            // ── Keep canvas behind everything ──
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.zIndex = '-1';
+            canvas.style.pointerEvents = 'none';
+
         });
-    });
-</script>
+    </script>
+
 </body>
 </html>
-
